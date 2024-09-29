@@ -23,6 +23,7 @@ struct MainHeader {
 struct MainViewModel {
     let mainHeader = MainHeader(title: "PixelArt")
 }
+typealias ButtonTapped = (UIAction?)
 
 class ViewController: UIViewController {
     private let viewModel = MainViewModel()
@@ -70,6 +71,29 @@ class ViewController: UIViewController {
         hView.translatesAutoresizingMaskIntoConstraints = false
         return hView
     }()
+    
+    private let cameraButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("Camera", for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
+    private let galleryButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("Gallery", for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
+    private let hStack: UIStackView = {
+        let hStack = UIStackView()
+        hStack.axis = .horizontal
+        hStack.distribution = .fillEqually
+        hStack.spacing = 10
+        hStack.translatesAutoresizingMaskIntoConstraints = false
+        return hStack
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +101,7 @@ class ViewController: UIViewController {
         setupHeaderView()
         setupActionContainerView()
         setupCollectionContainerView()
+        configureActionView()
     }
 }
 private
@@ -103,11 +128,33 @@ extension ViewController {
         NSLayoutConstraint.activate([actionContainerView.topAnchor.constraint(equalTo: headerView.bottomAnchor,
                                                                               constant: 16),
                                      actionContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                                         constant: 16),
+                                                                                  constant: 16),
                                      actionContainerView.trailingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.trailingAnchor,
-                                                                          constant: -16),
+                                                                                   constant: -16),
                                      actionContainerView.heightAnchor.constraint(equalToConstant: 54)])
         
+    }
+    func configureActionView() {
+        actionContainerView.addSubview(hStack)
+        hStack.addArrangedSubview(cameraButton)
+        hStack.addArrangedSubview(galleryButton)
+        cameraButton.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
+        galleryButton.addTarget(self, action: #selector(galleryButtonTapped), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            hStack.centerXAnchor.constraint(equalTo: actionContainerView.centerXAnchor),
+            hStack.centerYAnchor.constraint(equalTo: actionContainerView.centerYAnchor),
+            hStack.leadingAnchor.constraint(equalTo: actionContainerView.leadingAnchor, constant: 20),
+            hStack.trailingAnchor.constraint(equalTo: actionContainerView.trailingAnchor, constant: -20)
+        ])
+    }
+    @objc 
+    func cameraButtonTapped() {
+        print("cameraButtonTapped!")
+    }
+    
+    @objc 
+    func galleryButtonTapped() {
+        print("galleryButtonTapped!")
     }
 }
 
