@@ -25,7 +25,7 @@ struct MainViewModel {
 }
 typealias ButtonTapped = (UIAction?)
 
-class ViewController: UIViewController {
+class ViewController: UIViewController  {
     private let viewModel = MainViewModel()
     private let headerView: UIView = {
         let hView = UIView()
@@ -150,11 +150,47 @@ extension ViewController {
     @objc 
     func cameraButtonTapped() {
         print("cameraButtonTapped!")
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            print("camera unavailable!")
+            return
+        }
+        let cameraPickerUV = UIImagePickerController()
+        cameraPickerUV.delegate = self
+        cameraPickerUV.sourceType = .camera
+        // TODO: show loader
+        present(cameraPickerUV, animated: true) {
+            // dismiss the loader
+        }
     }
     
     @objc 
     func galleryButtonTapped() {
         print("galleryButtonTapped!")
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            print("photoLibrary unavailable!")
+            return
+        }
+        let photoPickerUV = UIImagePickerController()
+        photoPickerUV.delegate = self
+        photoPickerUV.sourceType = .photoLibrary
+        // TODO: show loader
+        present(photoPickerUV, animated: true) {
+            // dismiss the loader
+        }
+    }
+}
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo
+                               info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            print("Image selected: \(selectedImage)")
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
