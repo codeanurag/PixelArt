@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     private let headerView: UIView = {
         let hView = UIView()
         hView.layer.backgroundColor = UIColor.orange.cgColor
-        hView.layer.shadowColor = UIColor.black.cgColor
+        hView.layer.shadowColor = UIColor.white.cgColor
         hView.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         hView.layer.shadowOpacity = 0.2
         hView.layer.shadowRadius = 4.0
@@ -44,10 +44,25 @@ class ViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    private let actionView: UIView = {
+       let hView = UIView()
+        hView.layer.backgroundColor = UIColor.lightGray.cgColor
+        hView.layer.shadowColor = UIColor.white.cgColor
+        hView.layer.shadowOffset = CGSize(width: 0, height: 8.0)
+        hView.layer.shadowOpacity = 0.2
+        hView.layer.shadowRadius = 4.0
+        hView.layer.cornerRadius = 6
+        hView.layer.masksToBounds = true
+        hView.translatesAutoresizingMaskIntoConstraints = false
+        return hView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
         setupHeaderView()
+        setupActionView()
     }
 }
 private
@@ -67,3 +82,16 @@ extension ViewController {
     }
 }
 
+private
+extension ViewController {
+    func setupActionView() {
+        view.addSubview(actionView)
+        NSLayoutConstraint.activate([actionView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16),
+                                     actionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                                         constant: 16),
+                                     actionView.trailingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.trailingAnchor,
+                                                                          constant: -16),
+                                     actionView.heightAnchor.constraint(equalToConstant: 54)])
+        
+    }
+}
