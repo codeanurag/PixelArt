@@ -45,7 +45,20 @@ class ViewController: UIViewController {
         return label
     }()
     
-    private let actionView: UIView = {
+    private let actionContainerView: UIView = {
+       let hView = UIView()
+        hView.layer.backgroundColor = UIColor.lightGray.cgColor
+        hView.layer.shadowColor = UIColor.white.cgColor
+        hView.layer.shadowOffset = CGSize(width: 0, height: 8.0)
+        hView.layer.shadowOpacity = 0.2
+        hView.layer.shadowRadius = 4.0
+        hView.layer.cornerRadius = 6
+        hView.layer.masksToBounds = true
+        hView.translatesAutoresizingMaskIntoConstraints = false
+        return hView
+    }()
+    
+    private let collectionContainerView: UIView = {
        let hView = UIView()
         hView.layer.backgroundColor = UIColor.lightGray.cgColor
         hView.layer.shadowColor = UIColor.white.cgColor
@@ -62,7 +75,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         setupHeaderView()
-        setupActionView()
+        setupActionContainerView()
+        setupCollectionContainerView()
     }
 }
 private
@@ -84,14 +98,28 @@ extension ViewController {
 
 private
 extension ViewController {
-    func setupActionView() {
-        view.addSubview(actionView)
-        NSLayoutConstraint.activate([actionView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16),
-                                     actionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+    func setupActionContainerView() {
+        view.addSubview(actionContainerView)
+        NSLayoutConstraint.activate([actionContainerView.topAnchor.constraint(equalTo: headerView.bottomAnchor,
+                                                                              constant: 16),
+                                     actionContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                                                                          constant: 16),
-                                     actionView.trailingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.trailingAnchor,
+                                     actionContainerView.trailingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.trailingAnchor,
                                                                           constant: -16),
-                                     actionView.heightAnchor.constraint(equalToConstant: 54)])
+                                     actionContainerView.heightAnchor.constraint(equalToConstant: 54)])
+        
+    }
+}
+
+private
+extension ViewController {
+    func setupCollectionContainerView() {
+        view.addSubview(collectionContainerView)
+        NSLayoutConstraint.activate([collectionContainerView.topAnchor
+            .constraint(equalTo: actionContainerView.bottomAnchor, constant: 16),
+                                     collectionContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+                                     collectionContainerView.trailingAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+                                     collectionContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)])
         
     }
 }
