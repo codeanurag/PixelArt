@@ -5,6 +5,7 @@
 //  Created by Anurag Pandit on 03/10/24.
 //
 import UIKit
+import CoreImage
 final class ImageViewController: UIViewController {
     private let contentView: UIView = {
         let cView = UIView()
@@ -24,6 +25,12 @@ final class ImageViewController: UIViewController {
         iView.translatesAutoresizingMaskIntoConstraints = false
         return iView
     }()
+    private let pixelMeButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("Pixel Me", for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
     
     let selectedImage: UIImage
     init(selectedImage: UIImage) {
@@ -38,10 +45,9 @@ final class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        configureImageView()
         let closeButton = UIBarButtonItem(barButtonSystemItem: .close,
                                           target: self, action: #selector(dismissViewController))
-        navigationItem.leftBarButtonItem = closeButton
+        navigationItem.rightBarButtonItem = closeButton
         navigationController?.navigationBar.backgroundColor = .white
     }
     // Action for the close button
@@ -54,6 +60,8 @@ extension ImageViewController {
     func setupView() {
         setupContentView()
         setupImageView()
+        setupButton()
+        configureImageView(selectedImage: selectedImage)
     }
     func setupContentView() {
         view.addSubview(contentView)
@@ -67,11 +75,44 @@ extension ImageViewController {
         imageView.backgroundColor = .red
         NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
                                      imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-                                     imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-                                     imageView.heightAnchor.constraint(equalToConstant: 200)])
+                                     imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)])
     }
-    func configureImageView() {
+    func configureImageView(selectedImage: UIImage) {
         imageView.image = selectedImage
-        imageView.sizeToFit()
     }
+    func setupButton() {
+        pixelMeButton.addTarget(self, action: #selector(pixelMeButtonTapped), for: .touchUpInside)
+        contentView.addSubview(pixelMeButton)
+        NSLayoutConstraint.activate([pixelMeButton.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
+                                     pixelMeButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+                                     imageView.bottomAnchor.constraint(equalTo: pixelMeButton.topAnchor, constant: -16)])
+    }
+    @objc
+    func pixelMeButtonTapped() {
+        print("pixelMeButtonTapped")
+        if let result = pixelateImage(selectedImage) {
+            configureImageView(selectedImage: UIImage())
+            configureImageView(selectedImage: result)
+            print("pixelMe set")
+        }
+    }
+
+    func pixelateImage(_ image: UIImage) -> UIImage? {
+        guard let ciImage = CIImage(image: image) else { return nil }
+        
+        let filter = CIFilter(name: "CIPixellate")
+        filter?.setValue(ciImage, forKey: "inputImage")
+        filter?.setValue(20, forKey: "inputScale")
+
+        guard let outputImage = filter?.outputImage else { return nil }
+        let context = CIContext()
+        
+        if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            print("pixelMe Converted")
+            return UIImage(cgImage: cgImage)
+        }
+        
+        return nil
+    }
+
 }
