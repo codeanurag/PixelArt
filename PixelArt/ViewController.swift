@@ -94,6 +94,8 @@ class ViewController: UIViewController  {
         hStack.translatesAutoresizingMaskIntoConstraints = false
         return hStack
     }()
+    
+    private var selectedImage: UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -185,12 +187,26 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
                                info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
             print("Image selected: \(selectedImage)")
+            self.selectedImage = selectedImage
+            
         }
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true) { [weak self] in
+            guard let selectedImage = self?.selectedImage else { return }
+            self?.showImageViewController(selectedImage)
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+private
+extension ViewController {
+    func showImageViewController(_ withImage: UIImage) {
+        let imageVC = ImageViewController(selectedImage: withImage)
+        imageVC.modalPresentationStyle = .fullScreen
+        present(imageVC, animated: true)
     }
 }
 

@@ -16,6 +16,7 @@
 		752364332CA981E900C250E0 /* PixelArtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752364322CA981E900C250E0 /* PixelArtTests.swift */; };
 		7523643D2CA981E900C250E0 /* PixelArtUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523643C2CA981E900C250E0 /* PixelArtUITests.swift */; };
 		7523643F2CA981E900C250E0 /* PixelArtUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523643E2CA981E900C250E0 /* PixelArtUITestsLaunchTests.swift */; };
+		75BA196C2CAE698400C643E8 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA196B2CAE697800C643E8 /* ImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		752364382CA981E900C250E0 /* PixelArtUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PixelArtUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7523643C2CA981E900C250E0 /* PixelArtUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtUITests.swift; sourceTree = "<group>"; };
 		7523643E2CA981E900C250E0 /* PixelArtUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelArtUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		75BA196B2CAE697800C643E8 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		7523641A2CA981E600C250E0 /* PixelArt */ = {
 			isa = PBXGroup;
 			children = (
+				75BA196B2CAE697800C643E8 /* ImageViewController.swift */,
 				7523641B2CA981E600C250E0 /* AppDelegate.swift */,
 				7523641D2CA981E600C250E0 /* SceneDelegate.swift */,
 				7523641F2CA981E600C250E0 /* ViewController.swift */,
@@ -260,6 +263,7 @@
 			files = (
 				752364202CA981E600C250E0 /* ViewController.swift in Sources */,
 				7523641C2CA981E600C250E0 /* AppDelegate.swift in Sources */,
+				75BA196C2CAE698400C643E8 /* ImageViewController.swift in Sources */,
 				7523641E2CA981E600C250E0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
