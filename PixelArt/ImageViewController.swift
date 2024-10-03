@@ -39,6 +39,14 @@ final class ImageViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         configureImageView()
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close,
+                                          target: self, action: #selector(dismissViewController))
+        navigationItem.leftBarButtonItem = closeButton
+        navigationController?.navigationBar.backgroundColor = .white
+    }
+    // Action for the close button
+    @objc func dismissViewController() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 private

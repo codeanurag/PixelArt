@@ -204,7 +204,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 private
 extension ViewController {
     func showImageViewController(_ withImage: UIImage) {
-        let imageVC = ImageViewController(selectedImage: withImage)
+        let imageVC = UINavigationController(rootViewController: ImageViewController(selectedImage: withImage))
         imageVC.modalPresentationStyle = .fullScreen
         present(imageVC, animated: true)
     }
